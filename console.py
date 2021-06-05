@@ -135,12 +135,9 @@ class HBNBCommand(cmd.Cmd):
                 key = x[0]
                 value = x[1]
                 #special handling for string inputs
-                print(type(value))
                 if type(value) is str:
                     value = value.replace('_', ' ')
-                    print(value)
                     value = value.replace('\"', '')
-                    print(value)
                 #assign attribute the new value
                 new_instance.__dict__[key] = value
             except:
