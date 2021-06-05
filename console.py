@@ -66,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
 
                 # isolate _id, stripping quotes
                 _id = pline[0].replace('\"', '')
-                # possible bug here:
+                # POSSIBLE BUG HERE:
                 # empty quotes register as empty _id when replaced
 
                 # if arguments exist beyond _id
@@ -114,14 +114,34 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        """ Create an object of any class """
+        # parsing args based on whitespace, isolate class name
+        arg_list = args.split()
+        cls = arg_list[0]
+        if not cls:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif cls not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+
+        new_instance = HBNBCommand.classes[cls]()
+
+        #removing class name from the list of parameters, for ease of access
+        arg_list.remove(cls)
+        for x in arg_list: #for each input parameter
+            try:
+                x = x.split('=') #seaparate key(attr) and value
+                key = x[0]
+                value = x[1]
+                #special handling for string inputs
+                if type(value) is str:
+                    value = value.replace('_', ' ')
+                    value = value.replace('\"', '')
+                #assign attribute the new value
+                new_instance.__dict__[key] = x[1]
+            except:
+                continue #skip attributes that don't exist/improper formatting
         storage.save()
         print(new_instance.id)
         storage.save()
