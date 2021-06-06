@@ -14,10 +14,10 @@ class FileStorage:
         if cls is None:
             return FileStorage.__objects
         else:
-            instance_list = []
+            instance_list = {}
             for obj in FileStorage.__objects.keys():
-                if cls in obj:
-                    instance_list.append(FileStorage.__objects[obj]
+                if obj.find(str(cls)):
+                    instance_list[obj] = FileStorage.__objects[obj]
             return instance_list
 
     def new(self, obj):
@@ -37,8 +37,8 @@ class FileStorage:
         """ delete object from objects dict """
         if obj is None:
             return
-        elif obj in storage.all().keys():
-            storgae.all().pop(obj)
+        elif obj in FileStorage.__objects.keys():
+            FileStorage.__objects.pop(obj)
         else:
             return
 
