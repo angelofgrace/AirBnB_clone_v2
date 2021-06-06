@@ -16,7 +16,7 @@ class FileStorage:
         else:
             instance_list = {}
             for obj in FileStorage.__objects.keys():
-                if obj.find(str(cls)):
+                if cls.__name__ in obj:
                     instance_list[obj] = FileStorage.__objects[obj]
             return instance_list
 
@@ -37,8 +37,11 @@ class FileStorage:
         """ delete object from objects dict """
         if obj is None:
             return
-        elif obj in FileStorage.__objects.keys():
-            FileStorage.__objects.pop(obj)
+        elif obj in FileStorage.__objects.values():
+            tmp_dict = FileStorage.__objects.copy()
+            for key, val in tmp_dict.items():
+                if val == obj:
+                    FileStorage.__objects.pop(key)
         else:
             return
 
