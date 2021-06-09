@@ -11,10 +11,15 @@ class State(BaseModel, Base):
     """ State class """
     name = Column(String(128), nullable=False)    
     __tablename__ = "states"
-    __cities__ = relationship("City", cascade="all, delete-orphan")
+    cities = relationship("City", cascade="all, delete-orphan")
 
     @property
     def cities(self):
         """ Returns list of city instances, connected to state id """
         #ORM code to retrieve from table
-        return self.__cities__
+        from models import storage
+        list_of_cities = []
+        for instance in storage.all(City).values():
+            if instance.state_id == self.id:
+                list_of_cities.append(instance)
+        return list_of_cities
