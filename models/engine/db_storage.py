@@ -17,7 +17,6 @@ class DBStorage(Base):
         #do we want to maniuplate the instance version of the attribute
         #or the class version, for both of these (self, or db)
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(HBNB_MYSQL_USER, HBNB_MYSQL_PWD, HBNB_MYSQL_HOST, HBNB_MYSQL_DB, pool_pre_ping=True)
-                    ### Missing a step ?? in session making process ##
         if os.environ['HBNB_ENV'] == 'test':
             #if in the test directory, clear existing tables(for this session)
             drop_all(self.__session)
@@ -30,7 +29,7 @@ class DBStorage(Base):
                 for class_str, class_name in FileStorage.classes.items():
                     data = self.__session.query(class_name)
                     for instance in data:
-                        instance_dict[class_str + '.' + instance.id] = class_name.to_dict(instnace)
+                        instance_dict[class_str + '.' + instance.id] = class_name.to_dict(instance)
                 return instance_dict
         else:
                 data = self.__session.query(cls)
