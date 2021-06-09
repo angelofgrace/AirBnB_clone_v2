@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base
 from models.engine.file_storage import FileStorage
 from sqlalchemy import create_engine, session
 from sqlalchemy import Column, Integer, String
-import os 
+import os
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 class DBStorage(Base):
@@ -16,10 +16,10 @@ class DBStorage(Base):
     def __init__(self):
         #do we want to maniuplate the instance version of the attribute
         #or the class version, for both of these (self, or db)
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(HBNB_MYSQL_USER, HBNB_MYSQL_PWD, HBNB_MYSQL_HOST, HBNB_MYSQL_DB, pool_pre_ping=True)
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(os.environ['HBNB_MYSQL_USER'], os.environ['HBNB_MYSQL_PWD'], os.environ['HBNB_MYSQL_HOST'], os.environ['HBNB_MYSQL_DB'], pool_pre_ping=True)
         if os.environ['HBNB_ENV'] == 'test':
             #if in the test directory, clear existing tables(for this session)
-            drop_all(self.__session)
+            Base.metadata.drop_all(self.__session)
 
     def all(self, cls=None):
         instance_dict = {}
@@ -49,6 +49,7 @@ class DBStorage(Base):
         #delete the object to the current db session if object is present
         if obj is not None:
             self.__session.delete(obj)
+            self.save()
 
     def reload(self):
         #creating all tables in the database
@@ -60,5 +61,3 @@ class DBStorage(Base):
         from models.user import User
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
-
-
