@@ -24,11 +24,13 @@ class DBStorage(Base):
 
     def all(self, cls=None):
         instance_dict = {}
+        #If there is no class we go through the classes in the classes in filestorage
+        #After we find the class we append it to the isstance.id and add it to the new dict
         if cls == None:
                 for class_str, class_name in FileStorage.classes.items():
                     data = self.__session.query(class_name)
                     for instance in data:
-                        isntance_dict[class_str + '.' + instance.id] = class_name.to_dict(instnace)
+                        instance_dict[class_str + '.' + instance.id] = class_name.to_dict(instnace)
                 return instance_dict
         else:
                 data = self.__session.query(cls)
@@ -41,8 +43,10 @@ class DBStorage(Base):
         self.__session.add(obj)
 
     def save(self):
+        #save the object to the current db session
         self.__session.commit()
 
     def delete(self, obj=None):
+        #delete the object to the current db session if object is present
         if obj is not None:
             self.__session.delete(obj)
