@@ -2,7 +2,7 @@
 """ Doing database things """
 from models.base_model import BaseModel, Base
 from models.engine.file_storage import FileStorage
-from sqlalchemy import create_engine, session
+from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String
 from os import getenv
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -16,10 +16,10 @@ class DBStorage(Base):
     def __init__(self):
         #do we want to maniuplate the instance version of the attribute
         #or the class version, for both of these (self, or db)
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(getenv('HBNB_MYSQL_USER'), getenv('HBNB_MYSQL_PWD'), getenv('HBNB_MYSQL_HOST'), getenv('HBNB_MYSQL_DB'), pool_pre_ping=True)
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(getenv('HBNB_MYSQL_USER'), getenv('HBNB_MYSQL_PWD'), getenv('HBNB_MYSQL_HOST'), getenv('HBNB_MYSQL_DB'), pool_pre_ping=True))
         if getenv('HBNB_ENV') == 'test':
             #if in the test directory, clear existing tables(for this session)
-            Base.metadata.drop_all(self.__session)
+           Base.metadata.drop_all(self.__session)
 
     def all(self, cls=None):
         instance_dict = {}
