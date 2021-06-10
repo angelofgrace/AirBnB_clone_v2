@@ -7,7 +7,7 @@ from sqlalchemy import Column, Integer, String
 from os import getenv
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-class DBStorage(Base):
+class DBStorage():
     """ DB Storage serialization, dezerilaization """
 
     __engine = None
