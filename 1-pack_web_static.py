@@ -3,6 +3,7 @@
 from fabric.api import local
 from datetime import datetime
 
+
 def do_pack():
     """ Pack up the front end """
     now = datetime.now()
