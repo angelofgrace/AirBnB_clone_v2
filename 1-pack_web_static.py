@@ -11,4 +11,4 @@ def do_pack():
     tarArchivePath = "versions/" + tarArchiveName
 
     local("mkdir -p versions")
-    local("tar -czvf " + tarAchviePath + "web_static")
+    local("tar -czvf " + tarArchivePath + " web_static")
