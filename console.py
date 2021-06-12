@@ -143,9 +143,8 @@ class HBNBCommand(cmd.Cmd):
                 new_instance.__dict__[key] = value
             except:
                 continue  # skip attributes w/o don't exist/improper formatting
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """

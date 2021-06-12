@@ -38,7 +38,6 @@ class DBStorage():
                     instance_dict[class_str + '.' + instance.id] = class_actual.to_dict(instance)
                 return instance_dict
         else:
-                print(cls)
                 data = self.__session.query(cls)
                 for instance in data:
                     instance_dict[cls.__name__ + '.' + instance.id] = cls.to_dict(instance)
