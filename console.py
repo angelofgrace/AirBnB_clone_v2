@@ -13,22 +13,23 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
+
     """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -127,21 +128,21 @@ class HBNBCommand(cmd.Cmd):
 
         new_instance = HBNBCommand.classes[cls]()
 
-        #removing class name from the list of parameters, for ease of access
+        # removing class name from the list of parameters, for ease of access
         arg_list.remove(cls)
-        for x in arg_list: #for each input parameter
+        for x in arg_list:  # for each input parameter
             try:
-                x = x.split('=') #seaparate key(attr) and value
+                x = x.split('=')  # seaparate key(attr) and value
                 key = x[0]
                 value = x[1]
-                #special handling for string inputs
+                # special handling for string inputs
                 if type(value) is str:
                     value = value.replace('_', ' ')
                     value = value.replace('\"', '')
-                #assign attribute the new value
+                # assign attribute the new value
                 new_instance.__dict__[key] = value
             except:
-                continue #skip attributes that don't exist/improper formatting
+                continue  # skip attributes w/o don't exist/improper formatting
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -222,15 +223,15 @@ class HBNBCommand(cmd.Cmd):
         print_list = []
 
         if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
+            class_name = args.split(' ')[0]  # remove possible trailing args
+            if class_name not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
+            for k, v in storage.all().items():
+                if k.split('.')[0] == class_name:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
