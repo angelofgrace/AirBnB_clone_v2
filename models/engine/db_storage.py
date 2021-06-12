@@ -25,24 +25,24 @@ class DBStorage():
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(getenv('HBNB_MYSQL_USER'), getenv('HBNB_MYSQL_PWD'), getenv('HBNB_MYSQL_HOST'), getenv('HBNB_MYSQL_DB'), pool_pre_ping=True))
         if getenv('HBNB_ENV') == 'test':
             #if in the test directory, clear existing tables(for this session)
-           Base.metadata.drop_all(self.__session)
+           Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         instance_dict = {}
         #If there is no class we go through the classes in the classes in filestorage
         #After we find the class we append it to the isstance.id and add it to the new dict
-        #if cls is None:
-        for class_str, class_actual in FileStorage.classes.items():
-            data = self.__session.query(class_actual).all()
-            for instance in data:
-                instance_dict[class_str + '.' + instance.id] = class_actual.to_dict(instance)
-            return instance_dict
-        #else:
-                #print(cls)
-                #data = self.__session.query(State)
-                #for instance in data:
-                #    instance_dict[State.__name__ + '.' + instance.id] = State.to_dict(instance)
-                #return instance_dict
+        if cls is None:
+            for class_str, class_actual in FileStorage.classes.items():
+                data = self.__session.query(class_actual).all()
+                for instance in data:
+                    instance_dict[class_str + '.' + instance.id] = class_actual.to_dict(instance)
+                return instance_dict
+        else:
+                print(cls)
+                data = self.__session.query(cls)
+                for instance in data:
+                    instance_dict[cls.__name__ + '.' + instance.id] = cls.to_dict(instance)
+                return instance_dict
 
     def new(self, obj):
         #add the object to the current db session

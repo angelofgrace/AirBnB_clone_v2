@@ -98,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
-        print("Exit the program with formatting\n")
+        print("Exits the program with formatting\n")
 
     def do_EOF(self, arg):
         """ Handles EOF to exit program """
@@ -142,8 +142,9 @@ class HBNBCommand(cmd.Cmd):
                 new_instance.__dict__[key] = value
             except:
                 continue #skip attributes that don't exist/improper formatting
+        storage.save()
         print(new_instance.id)
-        new_instance.save()
+        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -225,11 +226,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all().items():
+            for k, v in storage._FileStorage__objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage.all().items():
+            for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
         print(print_list)
