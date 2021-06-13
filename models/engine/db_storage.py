@@ -19,6 +19,12 @@ class DBStorage():
     __engine = None
     __session = None
 
+    bnb_classes = {
+                'User': User, 'Place': Place,
+                'State': State, 'City': City, 'Amenity': Amenity,
+                'Review': Review
+              }
+
     def __init__(self):
         #do we want to maniuplate the instance version of the attribute
         #or the class version, for both of these (self, or db)
@@ -32,13 +38,13 @@ class DBStorage():
         #If there is no class we go through the classes in the classes in filestorage
         #After we find the class we append it to the isstance.id and add it to the new dict
         if cls is None:
-            for class_str, class_actual in FileStorage.classes.items():
-                data = self.__session.query(class_actual).all()
+            for class_str, class_actual in DBStorage.bnb_classes.items():
+                data = self.__session.query(class_actual)
                 for instance in data:
                     instance_dict[class_str + '.' + instance.id] = class_actual.to_dict(instance)
-                return instance_dict
+            return instance_dict
         else:
-                data = self.__session.query(cls)
+                data = self.__session.query(cls.__tablename__)
                 for instance in data:
                     instance_dict[cls.__name__ + '.' + instance.id] = cls.to_dict(instance)
                 return instance_dict
@@ -49,6 +55,7 @@ class DBStorage():
 
     def save(self):
         #save the object to the current db session
+        print('saving to db')
         self.__session.commit()
 
     def delete(self, obj=None):
