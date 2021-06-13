@@ -55,7 +55,6 @@ class DBStorage():
 
     def save(self):
         #save the object to the current db session
-        print('saving to db')
         self.__session.commit()
 
     def delete(self, obj=None):
