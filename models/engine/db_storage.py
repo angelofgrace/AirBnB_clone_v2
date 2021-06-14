@@ -49,9 +49,7 @@ class DBStorage():
         if cls is None:
             for class_str, class_actual in DBStorage.bnb_classes.items():
                 data = self.__session.query(class_actual)
-                for instance in data:
-                    instance_dict
-                    [class_str + '.' + instance.id] = class_actual.to_dict(instance)
+                for instance in data:instance_dict[class_str + '.' + instance.id] = class_actual.to_dict(instance)
             return instance_dict
         else:
                 data = self.__session.query(cls.__tablename__)
