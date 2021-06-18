@@ -22,7 +22,7 @@ class Place(BaseModel, Base):
     @property
     def reviews(self):
         """ Returns list of reviews, connected to place id """
-        # ORM code to retrieve from table
+        #ORM code to retrieve from table
         from models import storage
         list_of_reviews = []
         for instance in storage.all(Review).values():
