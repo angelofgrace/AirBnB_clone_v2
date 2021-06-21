@@ -38,8 +38,8 @@ def numeral(n):
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def numbered_template(n):
-    return render_template('number_header', number=n)
-    
+    return render_template('5-number', number=n)
+
 
 if __name__ == "__main__":
     app.run()
