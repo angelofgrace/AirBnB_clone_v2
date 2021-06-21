@@ -24,7 +24,7 @@ def c_string(text):
     return 'C {}'.format(text)
 
 
-@app.route('/python/(<text>)', strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
 def python_string(text):
     if not text:
         text = 'is cool'
