@@ -33,8 +33,5 @@ def python_string(text='is cool'):
 
 @app.route('/number/<n>', strict_slashes=False)
 def numeral(n):
-    if type(n) is int:
+    if n.isnumeric():
         return '{} is a number'.format(n)
-
-if __name__ == "__main__":
-    app.run()
