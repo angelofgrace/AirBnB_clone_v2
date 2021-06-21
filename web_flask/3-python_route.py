@@ -28,9 +28,10 @@ def c_string(text):
 def python_string(text):
     try:
         text = text.replace('_', ' ')
-        return 'Python '.format(text)
+        return 'Python {}'.format(text)
     except:
         return 'Python is cool'
+
 
 if __name__ == "__main__":
     app.run()
