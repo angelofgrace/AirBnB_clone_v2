@@ -26,10 +26,11 @@ def c_string(text):
 
 @app.route('/python/<text>', strict_slashes=False)
 def python_string(text):
-    if not text:
-        text = 'is cool'
-    text = text.replace('_', ' ')
-    return 'Python '.format(text)
+    try:
+        text = text.replace('_', ' ')
+        return 'Python '.format(text)
+    except:
+        return 'Python is cool'
 
 if __name__ == "__main__":
     app.run()
