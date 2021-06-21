@@ -35,3 +35,6 @@ def python_string(text='is cool'):
 def numeral(n):
     if n.isnumeric():
         return '{} is a number'.format(n)
+
+if __name__ == "__main__":
+    app.run()
