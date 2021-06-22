@@ -66,9 +66,9 @@ class DBStorage():
     def reload(self):
         #creating all tables in the database
         Base.metadata.create_all(self.__engine)
-        Session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
+        Session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False, autocommit=False))
         self.__session = Session()
 
     def close(self):
         #ending the session in mySQL
-        Session.close()
+        self.__session.close()
