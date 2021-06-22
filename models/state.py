@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from models import storage
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
@@ -16,6 +15,7 @@ class State(BaseModel, Base):
     def cities(self):
         """ Returns list of city instances, connected to state id """
         #ORM code to retrieve from table
+	from models import storage
         list_of_cities = []
         for instance in storage.all(City).values():
             if instance.state_id == self.id:
