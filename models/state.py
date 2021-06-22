@@ -23,5 +23,5 @@ class State(BaseModel, Base):
                 if instance.state_id == self.id:
                     list_of_cities.append(instance)
             return list_of_cities
-	else:
+        else:
             return storage.all(State)
