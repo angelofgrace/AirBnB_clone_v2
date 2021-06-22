@@ -15,7 +15,7 @@ class State(BaseModel, Base):
     def cities(self):
         """ Returns list of city instances, connected to state id """
         #ORM code to retrieve from table
-	from models import storage
+        from models import storage
         list_of_cities = []
         for instance in storage.all(City).values():
             if instance.state_id == self.id:
