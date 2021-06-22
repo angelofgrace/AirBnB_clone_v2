@@ -71,4 +71,4 @@ class DBStorage():
 
     def close(self):
         #ending the session in mySQL
-        self.session.remove()
+        self.__session.remove()
